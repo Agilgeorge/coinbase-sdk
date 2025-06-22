@@ -8,17 +8,21 @@ interface HeaderProps {
   onAdminClick: () => void;
 }
 
-
 export function Header({ onAdminClick }: HeaderProps) {
   const [address, setAddress] = useState<string | null>(null);
+  const [connecting, setConnecting] = useState(false);
 
   const connectWallet = async () => {
-    const res = await fetch('/api/connect');
-    const data = await res.json();
-    setAddress(data.address);
-    console.log('Wallet connected:', data.address);
+    setConnecting(true);
+    try {
+      const res = await fetch('/api/connect');
+      const data = await res.json();
+      setAddress(data.address);
+      console.log('Wallet connected:', data.address);
+    } finally {
+      setConnecting(false);
+    }
   };
-
 
   return (
     <header className="bg-white/80 backdrop-blur-md border-b border-blue-100 sticky top-0 z-50">
@@ -50,6 +54,14 @@ export function Header({ onAdminClick }: HeaderProps) {
             <div>
               {address ? (
                 <span className="font-mono text-xs">Connected: {address}</span>
+              ) : connecting ? (
+                <div className="flex items-center space-x-2 px-4 py-2">
+                  <svg className="animate-spin h-5 w-5 text-blue-600" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                  </svg>
+                  <span className="text-blue-700 font-semibold animate-pulse">Connecting to wallet...</span>
+                </div>
               ) : (
                 <Button
                   onClick={connectWallet}
@@ -64,6 +76,4 @@ export function Header({ onAdminClick }: HeaderProps) {
       </div>
     </header>
   );
-
-  
 }
