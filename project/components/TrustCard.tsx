@@ -1,11 +1,13 @@
 'use client';
 
+
 import { Trust } from '@/types';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Users, Clock, Wallet, Sparkles, Heart, Gift, HandHeart, Coins } from 'lucide-react';
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
+
 
 interface TrustCardProps {
   trust: Trust;
@@ -159,8 +161,6 @@ export function TrustCard({ trust, onDonate }: TrustCardProps) {
               </span>
               <Heart className="h-4 w-4 group-hover:animate-pulse" />
             </div>
-            
-            {/* Animated background effect */}
             <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
           </Button>
         </div>

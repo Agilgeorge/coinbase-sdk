@@ -9,6 +9,8 @@ interface AIInsightsProps {
   trusts: Trust[];
 }
 
+
+
 export function AIInsights({ trusts }: AIInsightsProps) {
   const recommendedTrust = trusts.find(t => t.isAIRecommended);
   const highUrgencyTrusts = trusts.filter(t => t.urgencyScore >= 85).length;

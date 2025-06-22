@@ -9,7 +9,6 @@ interface TrustGridProps {
 }
 
 export function TrustGrid({ trusts, onDonate }: TrustGridProps) {
-  // Sort trusts with AI recommended first, then by urgency score
   const sortedTrusts = [...trusts].sort((a, b) => {
     if (a.isAIRecommended && !b.isAIRecommended) return -1;
     if (!a.isAIRecommended && b.isAIRecommended) return 1;
@@ -17,7 +16,7 @@ export function TrustGrid({ trusts, onDonate }: TrustGridProps) {
   });
 
   return (
-    <section>
+    <section id="trust-grid" className="mt-24 scroll-mt-20">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h3 className="text-2xl font-bold text-slate-900">Active Trusts</h3>
@@ -27,7 +26,7 @@ export function TrustGrid({ trusts, onDonate }: TrustGridProps) {
           {trusts.length} verified trusts
         </div>
       </div>
-      
+
       <div className="grid md:grid-cols-2 gap-6">
         {sortedTrusts.map((trust) => (
           <TrustCard

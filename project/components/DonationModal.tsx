@@ -66,6 +66,7 @@ export function DonationModal({ trust, onClose, onDonationComplete }: DonationMo
     );
   }
 
+
   return (
     <Dialog open={true} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-lg">
@@ -171,7 +172,7 @@ export function DonationModal({ trust, onClose, onDonationComplete }: DonationMo
               {isProcessing ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Processing...
+                  Processing....
                 </>
               ) : (
                 `Donate ${amount} ETH`

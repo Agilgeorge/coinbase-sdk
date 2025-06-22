@@ -8,6 +8,7 @@ interface HeaderProps {
   onAdminClick: () => void;
 }
 
+
 export function Header({ onAdminClick }: HeaderProps) {
   const [address, setAddress] = useState<string | null>(null);
 
@@ -17,6 +18,7 @@ export function Header({ onAdminClick }: HeaderProps) {
     setAddress(data.address);
     console.log('Wallet connected:', data.address);
   };
+
 
   return (
     <header className="bg-white/80 backdrop-blur-md border-b border-blue-100 sticky top-0 z-50">
@@ -62,4 +64,6 @@ export function Header({ onAdminClick }: HeaderProps) {
       </div>
     </header>
   );
+
+  
 }

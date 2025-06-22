@@ -145,7 +145,7 @@ export function AdminPanel({ trusts, activities, onClose, onAddTrust, onDeleteTr
           
           <div className="flex space-x-1 mt-6">
             <Button
-              variant={activeTab === 'overview' ? "primary" : "ghost"}
+              variant={activeTab === 'overview' ? "default" : "ghost"}
               size="sm"
               onClick={() => setActiveTab('overview')}
             >
@@ -153,7 +153,7 @@ export function AdminPanel({ trusts, activities, onClose, onAddTrust, onDeleteTr
               Overview
             </Button>
             <Button
-              variant={activeTab === 'trusts' ? "primary" : "ghost"}
+              variant={activeTab === 'trusts' ? "default" : "ghost"}
               size="sm"
               onClick={() => setActiveTab('trusts')}
             >
@@ -161,7 +161,7 @@ export function AdminPanel({ trusts, activities, onClose, onAddTrust, onDeleteTr
               Trust Management
             </Button>
             <Button
-              variant={activeTab === 'registration' ? "primary" : "ghost"}
+              variant={activeTab === 'registration' ? "default" : "ghost"}
               size="sm"
               onClick={() => setActiveTab('registration')}
             >
