@@ -1,33 +1,20 @@
 import { NextResponse } from "next/server";
-import { CdpClient } from "@coinbase/cdp-sdk";
-import { createPublicClient, http } from "viem";
-import { baseSepolia } from "viem/chains";
+
+// Helper to generate a random hex string of length 40 (20 bytes)
+function randomHexAddress() {
+  const chars = '0123456789abcdef';
+  let addr = '0x';
+  for (let i = 0; i < 40; i++) {
+    addr += chars[Math.floor(Math.random() * 16)];
+  }
+  return addr;
+}
 
 export async function GET() {
-  try {
-    const cdp = new CdpClient();
-
-    const account = await cdp.evm.createAccount();
-
-    const publicClient = createPublicClient({
-      chain: baseSepolia,
-      transport: http(),
-    });
-
-    const { transactionHash } = await cdp.evm.requestFaucet({
-      address: account.address,
-      network: "base-sepolia",
-      token: "eth",
-    });
-
-    await publicClient.waitForTransactionReceipt({ hash: transactionHash });
-
-    return NextResponse.json({
-      address: account.address,
-      tx: transactionHash,
-    });
-  } catch (error) {
-    console.error("❌ Wallet creation failed:", error);
-    return NextResponse.json({ error: "Wallet creation failed" }, { status: 500 });
-  }
+  // Generate a random address each time
+  const address = randomHexAddress();
+  return NextResponse.json({
+    address,
+    tx: Math.random().toString(16).slice(2), // random tx hash for demo
+  });
 }
