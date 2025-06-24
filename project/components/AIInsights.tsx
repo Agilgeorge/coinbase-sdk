@@ -1,9 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { Trust } from '@/types';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Brain, TrendingUp, Target, AlertTriangle } from 'lucide-react';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Brain, TrendingUp, Target, AlertTriangle, Zap } from 'lucide-react';
 
 interface AIInsightsProps {
   trusts: Trust[];
@@ -11,10 +13,22 @@ interface AIInsightsProps {
 }
 
 export function AIInsights({ trusts, onAutoDonate }: AIInsightsProps) {
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+
   const recommendedTrust = trusts.find(t => t.isAIRecommended);
   const highUrgencyTrusts = trusts.filter(t => t.urgencyScore >= 85).length;
   const totalBalance = trusts.reduce((sum, t) => sum + t.balance, 0);
   const avgUrgency = trusts.reduce((sum, t) => sum + t.urgencyScore, 0) / trusts.length;
+
+  const handleAutoDonate = async () => {
+    if (!recommendedTrust) return;
+    setIsProcessing(true);
+    await new Promise(res => setTimeout(res, 1200)); // fake animation delay
+    onAutoDonate(recommendedTrust, 5.0);
+    setIsProcessing(false);
+    setShowConfirm(false);
+  };
 
   return (
     <section className="space-y-6">
@@ -93,13 +107,51 @@ export function AIInsights({ trusts, onAutoDonate }: AIInsightsProps) {
             <Button
               variant="secondary"
               className="ml-6 bg-white text-blue-700 hover:bg-blue-50"
-              onClick={() => onAutoDonate(recommendedTrust, 5.0)}
+              onClick={() => setShowConfirm(true)}
+              disabled={isProcessing}
             >
               Auto Donate
             </Button>
           </div>
         </Card>
       )}
+
+      {/* Confirmation Dialog */}
+      <Dialog open={showConfirm} onOpenChange={setShowConfirm}>
+        <DialogContent className="sm:max-w-md animate-bounce-in">
+          <div className="text-center py-8">
+            <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
+              <Zap className="h-8 w-8 text-blue-600" />
+            </div>
+            <h3 className="text-xl font-semibold text-slate-900 mb-2">Confirm Auto Donation</h3>
+            <p className="text-slate-600 mb-4">
+              Are you sure you want to auto donate <span className="font-bold">5.0 ETH</span> to <span className="font-bold">{recommendedTrust?.name}</span>?
+            </p>
+            <div className="flex space-x-3">
+              <Button variant="outline" onClick={() => setShowConfirm(false)} className="flex-1">
+                Cancel
+              </Button>
+              <Button
+                onClick={handleAutoDonate}
+                className="flex-1 bg-gradient-to-r from-blue-500 to-blue-700 text-white"
+                disabled={isProcessing}
+              >
+                {isProcessing ? (
+                  <span className="flex items-center justify-center">
+                    <svg className="animate-spin h-5 w-5 mr-2 text-white" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                    </svg>
+                    Processing...
+                  </span>
+                ) : (
+                  'Yes, Donate'
+                )}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
