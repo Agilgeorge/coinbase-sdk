@@ -244,6 +244,33 @@ export default function Home() {
     setTrusts(prev => prev.map(t => t.id === updatedTrust.id ? updatedTrust : t));
   };
 
+  const handleAutoDonate = (trust: Trust, amount: number) => {
+    // Simulate a transaction hash for the mock
+    const txHash = Math.random().toString(16).slice(2);
+    // Update trust balance and activity feed
+    setTrusts(prevTrusts =>
+      prevTrusts.map(t =>
+        t.id === trust.id
+          ? {
+              ...t,
+              balance: t.balance + amount,
+              totalDonations: t.totalDonations + amount,
+              lastDonation: new Date()
+            }
+          : t
+      )
+    );
+    const newActivity: Activity = {
+      id: Date.now().toString(),
+      donor: 'You (Auto Donate)',
+      amount,
+      trustName: trust.name,
+      timestamp: new Date(),
+      txHash
+    };
+    setActivities(prev => [newActivity, ...prev]);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <Header onAdminClick={() => setShowAdminPanel(!showAdminPanel)} />
@@ -251,7 +278,7 @@ export default function Home() {
       <main className="container mx-auto px-4 py-8 space-y-12">
         <HeroSection />
         
-        <AIInsights trusts={trusts} />
+        <AIInsights trusts={trusts} onAutoDonate={handleAutoDonate} />
         
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">

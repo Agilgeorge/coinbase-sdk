@@ -7,11 +7,10 @@ import { Brain, TrendingUp, Target, AlertTriangle } from 'lucide-react';
 
 interface AIInsightsProps {
   trusts: Trust[];
+  onAutoDonate: (trust: Trust, amount: number) => void;
 }
 
-
-
-export function AIInsights({ trusts }: AIInsightsProps) {
+export function AIInsights({ trusts, onAutoDonate }: AIInsightsProps) {
   const recommendedTrust = trusts.find(t => t.isAIRecommended);
   const highUrgencyTrusts = trusts.filter(t => t.urgencyScore >= 85).length;
   const totalBalance = trusts.reduce((sum, t) => sum + t.balance, 0);
@@ -91,9 +90,10 @@ export function AIInsights({ trusts }: AIInsightsProps) {
                 <span>Beneficiaries: {recommendedTrust.beneficiaryCount}</span>
               </div>
             </div>
-            <Button 
-              variant="secondary" 
+            <Button
+              variant="secondary"
               className="ml-6 bg-white text-blue-700 hover:bg-blue-50"
+              onClick={() => onAutoDonate(recommendedTrust, 5.0)}
             >
               Auto Donate
             </Button>
