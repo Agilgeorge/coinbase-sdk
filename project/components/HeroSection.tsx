@@ -6,7 +6,7 @@ export function HeroSection() {
   return (
     <section className="relative py-16 overflow-hidden">
       <div className="max-w-6xl mx-auto relative z-10">
-        <div className="grid lg:grid-cols-2 gap-8 items-center">
+        <div className="grid lg:grid-cols-2 gapA-8 items-center">
           {/* Left Content */}
           <div className="text-center lg:text-left">
             <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full mb-4">
@@ -44,14 +44,14 @@ export function HeroSection() {
             <div className="relative scale-125">
               <div className="w-96 h-56 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-3xl p-8 shadow-2xl flex flex-col justify-between transition-transform duration-300 hover:rotate-3 hover:shadow-3xl">
                 <div className="flex items-center space-x-4 mb-6">
-                  <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
-                    <Heart className="h-8 w-8 text-white" />
+                  <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                    <Heart className="h-6 w-6 text-white" />
                   </div>
-                  <span className="text-white text-2xl font-semibold">TrustBridge</span>
+                  <span className="text-white text-xl font-semibold">TrustBridge</span>
                 </div>
                 <div>
-                  <div className="text-white text-3xl font-bold">2.47 ETH</div>
-                  <div className="text-white/80 text-lg">Available for Impact</div>
+                  <div className="text-white text-xl font-bold">2.47 ETH</div>
+                  <div className="text-white/80 text-sm">Available for Impact</div>
                 </div>
                 <div className="flex items-center gap-x-4 mt-6">
                   <div className="flex -space-x-2">
